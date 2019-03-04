@@ -16,10 +16,18 @@ function splitFamily(array){
   }
 }
 
+function formatFamily() {
+  var formatted = {
+    title: splitParents[0],
+    data: [splitChildren[0]]
+  }
+  return formatted;
+}
+
 describe("splitFamily", () => {
+
   it("splits family if it has a child ", () => {
     const data = ["parent1/parent1child"];
-
     const expectedResult = ["parent1"]
     splitFamily(data)
     expect(splitParents).toMatchObject(expectedResult);
@@ -30,6 +38,18 @@ describe("splitFamily", () => {
     const data = ["parent3"];
     expect(splitFamily(data)).toMatchObject(Error("Parent has no child."));
   });
+
+});
+
+describe("formatFamily", () => {
+
+  it("Formats a single family", () => {
+    const data = ["parent1/parent1child"];
+    splitFamily(data);
+    expectedResult = {title: "parent1", data:["parent1child"]};
+    expect(formatFamily()).toMatchObject(expectedResult);
+  });
+
 });
 
 
