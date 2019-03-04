@@ -4,15 +4,17 @@ var splitChildren = [];
 function createMenuData(data) {
 }
 
-function splitFamily(string){
-  splitted = string.split("/");
-  splitParents.push(splitted[0]);
-  splitChildren.push(splitted[1]);
+function splitFamily(array){
+  for (let i = 0; i < array.length; i++) {
+    splitted = array[0].split("/");
+    splitParents.push(splitted[0]);
+    splitChildren.push(splitted[1]);
+  }
 }
 
 describe("splitFamily", () => {
   it("splits family if it has a child ", () => {
-    const data = "parent1/parent1child";
+    const data = ["parent1/parent1child"];
 
     const expectedResult = ["parent1"]
     splitFamily(data)
