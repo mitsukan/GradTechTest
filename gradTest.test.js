@@ -1,22 +1,26 @@
 var splitParents = [];
+var splitChildren = [];
 
 function createMenuData(data) {
 }
 
 function splitFamily(string){
-  splitted = string.split("/")
-  splitParents.push(splitted[0])
+  splitted = string.split("/");
+  splitParents.push(splitted[0]);
+  splitChildren.push(splitted[1]);
 }
 
 describe("menu Data Generator", () => {
 
-  it("splits parent if it has a child ", () => {
+  it("splits family if it has a child ", () => {
     const data = "parent1/parent1child";
 
     const expectedResult = ["parent1"]
     splitFamily(data)
     expect(splitParents).toMatchObject(expectedResult);
+    expect(splitChildren).toMatchObject(["parent1child"]);
   });
+
 
     // it("creates correct data structure ", () => {
     //   const data = [
