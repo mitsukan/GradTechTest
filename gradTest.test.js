@@ -1,8 +1,12 @@
 var splitParents = [];
 var splitChildren = [];
+var formattedFamilies = [];
+
+
 
 function createMenuData(data) {
 }
+
 
 function splitFamily(array){
   for (let i = 0; i < array.length; i++) {
@@ -17,36 +21,43 @@ function splitFamily(array){
 }
 
 function formatFamily() {
-  var formatted = {
-    title: splitParents[0],
-    data: [splitChildren[0]]
+  for(let i = 0; i < splitParents.length; i++) {
+    // Add new parent entries
+    var newFamily = {title: splitParents[i], data: []};
+    // For each parent entry, check through the children and see if there is a match
+    for(let i = 0; i < splitChildren.length; i++) {
+      if(splitChildren[i].includes(newFamily.title)){
+        newFamily.data.push(splitChildren[i]);
+      }
+    }
+    formattedFamilies.push(newFamily);
   }
-  return formatted;
+  return formattedFamilies;
 }
 
-describe("splitFamily", () => {
-
-  it("splits family if it has a child ", () => {
-    const data = ["parent1/parent1child"];
-    const expectedResult = ["parent1"]
-    splitFamily(data)
-    expect(splitParents).toMatchObject(expectedResult);
-    expect(splitChildren).toMatchObject(["parent1child"]);
-  });
-
-  it("Rejects parent if it has no child", () => {
-    const data = ["parent3"];
-    expect(splitFamily(data)).toMatchObject(Error("Parent has no child."));
-  });
-
-});
+// describe("splitFamily", () => {
+//
+//   it("splits family if it has a child ", () => {
+//     const data = ["parent1/parent1child"];
+//     const expectedResult = ["parent1"]
+//     splitFamily(data)
+//     expect(splitParents).toMatchObject(expectedResult);
+//     expect(splitChildren).toMatchObject(["parent1child"]);
+//   });
+//
+//   it("Rejects parent if it has no child", () => {
+//     const data = ["parent3"];
+//     expect(splitFamily(data)).toMatchObject(Error("Parent has no child."));
+//   });
+//
+// });
 
 describe("formatFamily", () => {
 
   it("Formats a single family", () => {
     const data = ["parent1/parent1child"];
     splitFamily(data);
-    expectedResult = {title: "parent1", data:["parent1child"]};
+    expectedResult = [{title: "parent1", data:["parent1child"]}];
     expect(formatFamily()).toMatchObject(expectedResult);
   });
 
