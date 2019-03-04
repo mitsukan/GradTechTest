@@ -10,8 +10,7 @@ function splitFamily(string){
   splitChildren.push(splitted[1]);
 }
 
-describe("menu Data Generator", () => {
-
+describe("splitFamily", () => {
   it("splits family if it has a child ", () => {
     const data = "parent1/parent1child";
 
@@ -20,6 +19,10 @@ describe("menu Data Generator", () => {
     expect(splitParents).toMatchObject(expectedResult);
     expect(splitChildren).toMatchObject(["parent1child"]);
   });
+});
+
+
+describe("menu Data Generator", () => {
 
 
     // it("creates correct data structure ", () => {
