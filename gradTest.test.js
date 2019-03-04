@@ -15,9 +15,7 @@ function splitFamily(array){
   for (let i = 0; i < array.length; i++) {
     var splitted = array[i].split("/");
     if (splitted[1]) {
-      if(splitParents.includes(splitted[0])) {
-
-      } else{
+      if(!splitParents.includes(splitted[0])) {
         splitParents.push(splitted[0]);
       }
       splitChildren.push(splitted[1]);
