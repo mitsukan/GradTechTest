@@ -2,40 +2,37 @@ var splitParents = [];
 var splitChildren = [];
 var formattedFamilies = [];
 
-
-
 function createMenuData(data) {
-  splitFamily(data);
-  formatFamily();
-  return formattedFamilies;
+	splitFamily(data);
+	formatFamily();
+	return formattedFamilies;
 }
 
-
 function splitFamily(array){
-  for (let i = 0; i < array.length; i++) {
-    var splitted = array[i].split("/");
-    if (splitted[1]) {
-      if(!splitParents.includes(splitted[0])) {
-        splitParents.push(splitted[0]);
-      }
-      splitChildren.push(splitted[1]);
-    }
-  }
+	for (let i = 0; i < array.length; i++) {
+		var splitted = array[i].split("/");
+		if (splitted[1]) {
+			if(!splitParents.includes(splitted[0])) {
+				splitParents.push(splitted[0]);
+			}
+			splitChildren.push(splitted[1]);
+		}
+	}
 }
 
 function formatFamily() {
-  for(let i = 0; i < splitParents.length; i++) {
-    // Add new parent entries
-    var newFamily = {title: splitParents[i], data: []};
-    // For each parent entry, check through the children and see if there is a match
-    for(let i = 0; i < splitChildren.length; i++) {
-      if(splitChildren[i].includes(newFamily.title)){
-        newFamily.data.push(splitChildren[i]);
-      }
-    }
-    formattedFamilies.push(newFamily);
-  }
-  return formattedFamilies;
+	for(let i = 0; i < splitParents.length; i++) {
+		// For each parent, add new parent entries
+		var newFamily = {title: splitParents[i], data: []};
+		for(let i = 0; i < splitChildren.length; i++) {
+			//check through the children and see if there is a match
+			if(splitChildren[i].includes(newFamily.title)){
+				newFamily.data.push(splitChildren[i]);
+			}
+		}
+		formattedFamilies.push(newFamily);
+	}
+	return formattedFamilies;
 }
 
 // describe("splitFamily", () => {
@@ -70,28 +67,28 @@ function formatFamily() {
 
 
 describe("menu Data Generator", () => {
-    it("creates correct data structure ", () => {
-      const data = [
-        "parent1/parent1child",
-        "parent1/parent1child2",
-        "parent2/parent2child",
-        "parent2/parent2child2",
-        "parent1/parent1child3",
-        "parent3",
-        "parent3/parent3child1",
-        "parent4"
-      ];
+	it("creates correct data structure ", () => {
+		const data = [
+			"parent1/parent1child",
+			"parent1/parent1child2",
+			"parent2/parent2child",
+			"parent2/parent2child2",
+			"parent1/parent1child3",
+			"parent3",
+			"parent3/parent3child1",
+			"parent4"
+		];
 
-      const expectedResult = [
-        {
-          title: "parent1",
-          data: ["parent1child", "parent1child2", "parent1child3"]
-        },
-        { title: "parent2", data: ["parent2child", "parent2child2"] },
-        { title: "parent3", data: ["parent3child1"] }
-      ];
+		const expectedResult = [
+			{
+				title: "parent1",
+				data: ["parent1child", "parent1child2", "parent1child3"]
+			},
+			{ title: "parent2", data: ["parent2child", "parent2child2"] },
+			{ title: "parent3", data: ["parent3child1"] }
+		];
 
-      const actualResult = createMenuData(data);
-      expect(actualResult).toMatchObject(expectedResult);
-    });
-  });
+		const actualResult = createMenuData(data);
+		expect(actualResult).toMatchObject(expectedResult);
+	});
+});
