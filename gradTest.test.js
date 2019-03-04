@@ -10,9 +10,13 @@ function createMenuData(data) {
 
 function splitFamily(array){
   for (let i = 0; i < array.length; i++) {
-    var splitted = array[0].split("/");
+    var splitted = array[i].split("/");
     if (splitted[1]) {
-      splitParents.push(splitted[0]);
+      if(splitParents.includes(splitted[0])) {
+
+      } else{
+        splitParents.push(splitted[0]);
+      }
       splitChildren.push(splitted[1]);
     } else {
       return Error('Parent has no child.');
@@ -35,33 +39,33 @@ function formatFamily() {
   return formattedFamilies;
 }
 
-// describe("splitFamily", () => {
-//
-//   it("splits family if it has a child ", () => {
-//     const data = ["parent1/parent1child"];
-//     const expectedResult = ["parent1"]
-//     splitFamily(data)
-//     expect(splitParents).toMatchObject(expectedResult);
-//     expect(splitChildren).toMatchObject(["parent1child"]);
-//   });
-//
-//   it("Rejects parent if it has no child", () => {
-//     const data = ["parent3"];
-//     expect(splitFamily(data)).toMatchObject(Error("Parent has no child."));
-//   });
-//
-// });
+describe("splitFamily", () => {
 
-describe("formatFamily", () => {
+  it("splits family if it has a child ", () => {
+    const data = ["parent1/parent1child", "parent1/parent1child2", "parent2/parent2child"];
+    const expectedResult = ["parent1", "parent2"]
+    splitFamily(data)
+    expect(splitParents).toMatchObject(expectedResult);
+    expect(splitChildren).toMatchObject(["parent1child", "parent1child2", "parent2child"]);
+  });
 
-  it("Formats a single family", () => {
-    const data = ["parent1/parent1child"];
-    splitFamily(data);
-    expectedResult = [{title: "parent1", data:["parent1child"]}];
-    expect(formatFamily()).toMatchObject(expectedResult);
+  it("Rejects parent if it has no child", () => {
+    const data = ["parent3"];
+    expect(splitFamily(data)).toMatchObject(Error("Parent has no child."));
   });
 
 });
+
+// describe("formatFamily", () => {
+//
+//   it("Formats a single family", () => {
+//     const data = ["parent1/parent1child", "parent1/parent1child2"];
+//     splitFamily(data);
+//     expectedResult = [{title: "parent1", data:["parent1child", "parent1child2"]}];
+//     expect(formatFamily()).toMatchObject(expectedResult);
+//   });
+//
+// });
 
 
 describe("menu Data Generator", () => {
