@@ -6,9 +6,13 @@ function createMenuData(data) {
 
 function splitFamily(array){
   for (let i = 0; i < array.length; i++) {
-    splitted = array[0].split("/");
-    splitParents.push(splitted[0]);
-    splitChildren.push(splitted[1]);
+    var splitted = array[0].split("/");
+    if (splitted[1]) {
+      splitParents.push(splitted[0]);
+      splitChildren.push(splitted[1]);
+    } else {
+      return Error('Parent has no child.');
+    }
   }
 }
 
@@ -20,6 +24,11 @@ describe("splitFamily", () => {
     splitFamily(data)
     expect(splitParents).toMatchObject(expectedResult);
     expect(splitChildren).toMatchObject(["parent1child"]);
+  });
+
+  it("Rejects parent if it has no child", () => {
+    const data = ["parent3"];
+    expect(splitFamily(data)).toMatchObject(Error("Parent has no child."));
   });
 });
 
